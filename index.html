@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>同心助残 - 全国残疾人互助公益服务平台</title>
+  <meta name="description" content="残疾人交友、匿名树洞、助残求职、创业帮扶、政策咨询综合公益平台">
+  <meta name="keywords" content="助残,残疾人交友,残疾人招聘,残疾人创业,残疾人政策,心理树洞,公益平台">
+  <!-- DNS 预解析加速 -->
+  <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Tailwind 主题配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82B9',
+            primaryDark: '#2C6FA0',
+            warm: '#F8F5F2',
+            softblue: '#E6F0F8',
+            accent: '#F59E0B',
+            darktext: '#1F2937',
+            lighttext: '#6B7280',
+            success: '#10B981',
+            danger: '#EF4444'
+          },
+          fontFamily: {
+            sans: ['"Noto Sans SC"', 'system-ui', 'PingFang SC', 'Microsoft YaHei', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto { content-visibility: auto; }
+      .access-border { outline: 3px solid #3B82B9; outline-offset: 2px; }
+      .high-contrast { background:#000 !important; color:#fff !important; }
+      .high-contrast-card { background:#111 !important; border-color:#3B82B9 !important; color:#fff !important; }
+      .page-hidden { display: none !important; }
+      .smooth-scroll { scroll-behavior: smooth; }
+      .card-hover { @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1; }
+      .btn-primary { @apply bg-primary text-white px-5 py-2.5 rounded-lg hover:bg-primaryDark transition-colors font-medium; }
+      .btn-outline { @apply border-2 border-primary text-primary px-5 py-2.5 rounded-lg hover:bg-softblue transition-colors font-medium; }
+      .section-title { @apply text-2xl md:text-3xl font-bold text-darktext mb-2; }
+      .section-subtitle { @apply text-lighttext text-base md:text-lg mb-8; }
+    }
+    /* 全局样式 */
+    *:focus-visible { @apply access-border rounded; }
+    body { @apply smooth-scroll font-sans text-darktext; font-size: 16px; line-height: 1.6; }
+    /* 高对比度模式 */
+    body.high-contrast-mode { background:#000 !important; color:#fff !important; }
+    body.high-contrast-mode .bg-white { background:#111 !important; }
+    body.high-contrast-mode .bg-warm { background:#000 !important; }
+    body.high-contrast-mode .bg-softblue { background:#1a1a1a !important; }
+    body.high-contrast-mode .text-darktext { color:#fff !important; }
+    body.high-contrast-mode .text-lighttext { color:#ccc !important; }
+    body.high-contrast-mode .border { border-color:#3B82B9 !important; }
+    /* 动画 */
+    @keyframes fadeInUp {
+      from { opacity:0; transform:translateY(20px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    .animate-in { animation: fadeInUp 0.5s ease-out forwards; }
+    /* 心跳动画 - 公益爱心 */
+    @keyframes heartbeat {
+      0%,100% { transform:scale(1); }
+      50% { transform:scale(1.15); }
+    }
+    .heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+    /* 进度条 */
+    .focus-ring { @apply outline-none ring-2 ring-primary/50; }
+  </style>
+</head>
+<body class="bg-warm transition-all duration-200" id="bodyWrap">
+  <!-- 跳过导航链接（无障碍） -->
+  <a href="#mainContent" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-primary text-white px-4 py-2 rounded z-[200]">跳过导航，直接到主内容</a>
+
+  <!-- 顶部无障碍快捷工具栏 -->
+  <div class="bg-primary text-white py-2 px-4 sticky top-0 z-50 shadow-md" aria-label="无障碍快捷工具栏">
+    <div class="max-w-7xl mx-auto flex flex-wrap gap-3 items-center justify-between text-sm">
+      <div class="flex gap-3 items-center flex-wrap">
+        <span aria-hidden="true"><i class="fa fa-universal-access mr-1"></i>无障碍</span>
+        <button onclick="fontSizeMinus()" class="px-2.5 py-1 bg-white/20 rounded hover:bg-white/30 transition-colors" aria-label="缩小字体">A-</button>
+        <button onclick="fontSizePlus()" class="px-2.5 py-1 bg-white/20 rounded hover:bg-white/30 transition-colors" aria-label="放大字体">A+</button>
+        <button onclick="toggleContrast()" id="contrastBtn" class="px-2.5 py-1 bg-white/20 rounded hover:bg-white/30 transition-colors" aria-label="切换高对比度模式">高对比度</button>
+        <button onclick="toggleReadingGuide()" id="readingGuideBtn" class="px-2.5 py-1 bg-white/20 rounded hover:bg-white/30 transition-colors text-xs" aria-label="开启阅读辅助线">阅读辅助</button>
+      </div>
+      <div class="flex items-center gap-3">
+        <span id="fontSizeTip" class="text-xs opacity-80">标准字体</span>
+        <span class="text-xs opacity-60 hidden md:inline">|</span>
+        <span class="text-xs opacity-80 hidden md:inline"><i class="fa fa-eye mr-1"></i>本平台支持视障读屏软件</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 阅读辅助线（可选） -->
+  <div id="readingGuide" class="fixed left-0 right-0 h-0.5 bg-primary/50 z-[45] pointer-events-none page-hidden" style="top:50%"></div>
+
+  <!-- 导航栏 -->
+  <header class="bg-white shadow-sm sticky z-40 transition-all" aria-label="网站主导航" id="mainHeader" style="top:42px">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <!-- Logo + 站点名 -->
+      <a href="#" onclick="switchPage('home'); return false;" class="flex items-center gap-2 text-primary font-bold text-xl flex-shrink-0" aria-label="同心助残公益平台 - 返回首页">
+        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white">
+          <i class="fa fa-heart-o text-lg"></i>
+        </div>
+        <span>同心助残</span>
+      </a>
+      <!-- 移动端菜单按钮 -->
+      <button id="mobileMenuBtn" class="md:hidden ml-auto px-3 py-2 border rounded text-primary border-primary" aria-label="打开导航菜单" onclick="toggleMobileMenu()">
+        <i class="fa fa-bars"></i>
+      </button>
+      <!-- 导航菜单 -->
+      <nav id="mainNav" class="hidden md:flex w-full md:w-auto">
+        <ul class="flex flex-col md:flex-row flex-wrap gap-0.5 md:gap-1 text-sm md:text-base w-full md:w-auto">
+          <li><button onclick="switchPage('home')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="home">首页</button></li>
+          <li><button onclick="switchPage('friend')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="friend">互助交友</button></li>
+          <li><button onclick="switchPage('treehole')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="treehole">心情树洞</button></li>
+          <li><button onclick="switchPage('job')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="job">助残招聘</button></li>
+          <li><button onclick="switchPage('startup')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="startup">创业帮扶</button></li>
+          <li><button onclick="switchPage('policy')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="policy">政策中心</button></li>
+          <li><button onclick="switchPage('donate')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="donate">支持我们</button></li>
+          <li><button onclick="switchPage('help')" class="nav-btn w-full md:w-auto text-left md:text-center px-3 py-2.5 rounded hover:bg-softblue transition-colors" data-page="help">客服帮助</button></li>
+        </ul>
+      </nav>
+      <!-- 登录注册按钮 -->
+      <div class="hidden md:flex gap-2 flex-shrink-0" id="authButtons">
+        <button onclick="openModal('loginModal')" class="px-4 py-1.5 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium text-sm">登录</button>
+        <button onclick="openModal('regModal')" class="px-4 py-1.5 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-sm">实名入驻</button>
+      </div>
+    </div>
+    <!-- 移动端菜单展开区 -->
+    <div id="mobileMenu" class="md:hidden page-hidden bg-white border-t px-4 py-3">
+      <div class="flex gap-2 mb-3">
+        <button onclick="openModal('loginModal')" class="flex-1 px-4 py-2 border-2 border-primary text-primary rounded-lg text-sm font-medium">登录</button>
+        <button onclick="openModal('regModal')" class="flex-1 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">实名入驻</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容区 -->
+  <main class="max-w-7xl mx-auto px-4 py-8 min-h-[calc(100vh-300px)]" id="mainContent">
+    <!-- ==================== 1. 首页 ==================== -->
+    <section id="page-home" class="page-wrap animate-in">
+      <!-- 首屏横幅 -->
+      <div class="relative bg-gradient-to-r from-primary to-primaryDark rounded-2xl p-8 md:p-12 mb-10 shadow-lg overflow-hidden text-white">
+        <div class="absolute inset-0 opacity-10">
+          <div class="absolute -top-10 -right-10 w-64 h-64 bg-white rounded-full"></div>
+          <div class="absolute bottom-0 left-0 w-40 h-40 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        </div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="bg-white/20 px-3 py-1 rounded-full text-sm"><i class="fa fa-check-circle mr-1"></i>纯公益 · 永久免费</span>
+            <span class="bg-white/20 px-3 py-1 rounded-full text-sm"><i class="fa fa-universal-access mr-1"></i>无障碍友好</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">同心助残<br><span class="text-accent">温暖同行</span></h1>
+          <p class="text-white/90 text-lg max-w-2xl mb-8 leading-relaxed">全国残疾人专属综合公益服务平台，解决社交孤独、就业困难、创业缺资源、情绪无处倾诉四大痛点。公益运营，全程免费。</p>
+          <div class="flex flex-wrap gap-4">
+            <button onclick="switchPage('friend')" class="btn-primary !bg-accent hover:!bg-amber-500"><i class="fa fa-users mr-2"></i>同城交友匹配</button>
+            <button onclick="switchPage('job')" class="px-5 py-2.5 bg-white text-primary rounded-lg font-medium hover:bg-white/90 transition-colors"><i class="fa fa-briefcase mr-2"></i>查看助残岗位</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 数据展示 -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="bg-white p-5 rounded-xl shadow-sm text-center card-hover">
+          <div class="text-3xl font-bold text-primary mb-1">12,680+</div>
+          <div class="text-sm text-lighttext">已入驻残友</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-sm text-center card-hover">
+          <div class="text-3xl font-bold text-primary mb-1">3,240+</div>
+          <div class="text-sm text-lighttext">成功就业案例</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-sm text-center card-hover">
+          <div class="text-3xl font-bold text-primary mb-1">860+</div>
+          <div class="text-sm text-lighttext">入驻助残企业</div>
+        </div>
+        <div class="bg-white p-5 rounded-xl shadow-sm text-center card-hover">
+          <div class="text-3xl font-bold text-primary mb-1">58,000+</div>
+          <div class="text-sm text-lighttext">树洞暖心回复</div>
+        </div>
+      </div>
+
+      <!-- 八大服务板块 -->
+      <div class="mb-4">
+        <h2 class="section-title">八大公益服务</h2>
+        <p class="section-subtitle">覆盖残疾人生活、就业、心理、社交全方位需求</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+        <!-- 卡片 1 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('friend')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-users"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">互助交友</h3>
+          <p class="text-lighttext text-sm mb-4">同城匹配、匿名/实名聊天、动态互动，告别孤独</p>
+          <span class="text-primary text-sm font-medium">立即进入 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 2 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('treehole')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-comment-o"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">心情树洞</h3>
+          <p class="text-lighttext text-sm mb-4">无实名倾诉心事，志愿者暖心回复，释放压力</p>
+          <span class="text-primary text-sm font-medium">立即倾诉 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 3 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('job')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-briefcase"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">助残招聘</h3>
+          <p class="text-lighttext text-sm mb-4">企业专属适配岗位，简历投递、面试绿色通道</p>
+          <span class="text-primary text-sm font-medium">找工作 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 4 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('startup')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-lightbulb-o"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">创业帮扶</h3>
+          <p class="text-lighttext text-sm mb-4">成功案例、扶持渠道、居家创业项目推荐</p>
+          <span class="text-primary text-sm font-medium">看案例 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 5 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('policy')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-book"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">政策中心</h3>
+          <p class="text-lighttext text-sm mb-4">补贴、康复、就业、创业政策一键检索</p>
+          <span class="text-primary text-sm font-medium">查政策 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 6 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('donate')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-heart"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">支持我们</h3>
+          <p class="text-lighttext text-sm mb-4">您的每一份支持，都能帮助更多残障朋友</p>
+          <span class="text-primary text-sm font-medium">了解详情 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 7 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="openModal('companyModal')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-building-o"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">企业入驻</h3>
+          <p class="text-lighttext text-sm mb-4">发布助残岗位，享受税收优惠政策指引</p>
+          <span class="text-primary text-sm font-medium">企业入驻 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+        <!-- 卡片 8 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover cursor-pointer" onclick="switchPage('help')">
+          <div class="w-12 h-12 bg-softblue rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+            <i class="fa fa-headphones"></i>
+          </div>
+          <h3 class="font-bold text-lg mb-2">客服帮助</h3>
+          <p class="text-lighttext text-sm mb-4">政策、账号、就业、心理问题人工咨询</p>
+          <span class="text-primary text-sm font-medium">联系客服 <i class="fa fa-arrow-right ml-1"></i></span>
+        </div>
+      </div>
+
+      <!-- 公益初心 -->
+      <div class="bg-white rounded-2xl p-8 md:p-10 shadow-sm mb-8">
+        <div class="flex items-start gap-4 mb-6">
+          <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary text-xl flex-shrink-0">
+            <i class="fa fa-leaf"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold mb-3">平台公益初心</h2>
+            <p class="text-lighttext leading-relaxed">同心助残为纯公益非盈利平台，不收取残疾人任何费用。针对残障群体社交隔绝、就业歧视、创业信息闭塞、心理压力大四大难题搭建一站式服务。所有服务永久免费，配套无障碍浏览工具，保障视障、肢障朋友顺畅使用。</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mt-6">
+          <div class="bg-softblue p-4 rounded-lg text-center">
+            <i class="fa fa-user text-2xl text-primary mb-2"></i>
+            <p class="font-medium">不收残友一分钱</p>
+          </div>
+          <div class="bg-softblue p-4 rounded-lg text-center">
+            <i class="fa fa-eye text-2xl text-primary mb-2"></i>
+            <p class="font-medium">无障碍全程适配</p>
+          </div>
+          <div class="bg-softblue p-4 rounded-lg text-center">
+            <i class="fa fa-shield text-2xl text-primary mb-2"></i>
+            <p class="font-medium">隐私数据严格加密</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. 互助交友社区 ==================== -->
+    <section id="page-friend" class="page-wrap page-hidden">
+      <h1 class="section-title">残疾人互助交友社区</h1>
+      <p class="section-subtitle">找到懂你的人，建立真实温暖的友谊</p>
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- 筛选区 -->
+          <div class="bg-white p-6 rounded-xl shadow-sm mb-6">
+            <h3 class="font-bold text-lg mb-4"><i class="fa fa-filter text-primary mr-2"></i>同城匹配筛选</h3>
+            <div class="grid sm:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm text-lighttext mb-1">省份</label>
+                <select class="border border-gray-300 p-2.5 rounded-lg w-full focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none" id="friendProvince">
+                  <option>全部省份</option>
+                  <option>北京市</option>
+                  <option>上海市</option>
+                  <option>山东省</option>
+                  <option>广东省</option>
+                  <option>江苏省</option>
+                  <option>浙江省</option>
+                  <option>河南省</option>
+                  <option>四川省</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm text-lighttext mb-1">城市</label>
+                <select class="border border-gray-300 p-2.5 rounded-lg w-full focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+                  <option>全部城市</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm text-lighttext mb-1">残障类型</label>
+                <select class="border border-gray-300 p-2.5 rounded-lg w-full focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+                  <option>残障类型不限</option>
+                  <option>肢体残疾</option>
+                  <option>视力残疾</option>
+                  <option>听力言语残疾</option>
+                  <option>智力残疾</option>
+                  <option>精神残疾</option>
+                  <option>多重残疾</option>
+                </select>
+              </div>
+            </div>
+            <button class="mt-5 btn-primary" onclick="showToast('正在为你匹配同城伙伴...')"><i class="fa fa-search mr-2"></i>匹配同城好友</button>
+          </div>
+          <h3 class="font-bold mb-4 text-lg">推荐同城伙伴</h3>
+          <div class="grid sm:grid-cols-2 gap-4" id="friendList">
+            <!-- 用户卡片 1 -->
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <div class="flex gap-4">
+                <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl flex-shrink-0">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold truncate">小阳 · 肢体残疾 · 济南</h4>
+                  <p class="text-sm text-lighttext my-1.5 line-clamp-2">爱好手工、居家创业，希望认识同城伙伴</p>
+                  <div class="flex gap-2 mt-3">
+                    <button class="text-sm px-3 py-1.5 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium">发起聊天</button>
+                    <button class="text-sm px-3 py-1.5 bg-softblue rounded-lg hover:bg-primary/10 transition-colors">关注</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 用户卡片 2 -->
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <div class="flex gap-4">
+                <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl flex-shrink-0">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold truncate">阿琳 · 听力残疾 · 青岛</h4>
+                  <p class="text-sm text-lighttext my-1.5 line-clamp-2">线上美工接单，寻找同行交流就业</p>
+                  <div class="flex gap-2 mt-3">
+                    <button class="text-sm px-3 py-1.5 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium">发起聊天</button>
+                    <button class="text-sm px-3 py-1.5 bg-softblue rounded-lg hover:bg-primary/10 transition-colors">关注</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 用户卡片 3 -->
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <div class="flex gap-4">
+                <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl flex-shrink-0">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold truncate">明哥 · 视力残疾 · 北京</h4>
+                  <p class="text-sm text-lighttext my-1.5 line-clamp-2">有声书配音，喜欢音乐和广播剧</p>
+                  <div class="flex gap-2 mt-3">
+                    <button class="text-sm px-3 py-1.5 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium">发起聊天</button>
+                    <button class="text-sm px-3 py-1.5 bg-softblue rounded-lg hover:bg-primary/10 transition-colors">关注</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 用户卡片 4 -->
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <div class="flex gap-4">
+                <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl flex-shrink-0">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold truncate">小梅 · 肢体残疾 · 广州</h4>
+                  <p class="text-sm text-lighttext my-1.5 line-clamp-2">自学编程中，想找一位学习搭子</p>
+                  <div class="flex gap-2 mt-3">
+                    <button class="text-sm px-3 py-1.5 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium">发起聊天</button>
+                    <button class="text-sm px-3 py-1.5 bg-softblue rounded-lg hover:bg-primary/10 transition-colors">关注</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 侧边栏 -->
+        <div>
+          <div class="bg-white p-6 rounded-xl shadow-sm sticky top-[140px]">
+            <h3 class="font-bold mb-4"><i class="fa fa-edit text-primary mr-2"></i>发布互助动态</h3>
+            <textarea id="friendPost" placeholder="分享你的生活、求助、寻找同路人..." class="w-full border border-gray-300 p-3 rounded-lg h-32 mb-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none text-sm" oninput="updateCharCount(this, 500, 'friendCount')"></textarea>
+            <div class="flex justify-between items-center mb-4">
+              <span id="friendCount" class="text-xs text-lighttext">0/500</span>
+              <div class="flex gap-2">
+                <button class="text-sm px-3 py-1.5 bg-softblue rounded-lg hover:bg-primary/10 transition-colors"><i class="fa fa-image mr-1"></i>图片</button>
+                <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+                  <input type="checkbox" class="rounded">匿名
+                </label>
+              </div>
+            </div>
+            <button class="w-full py-2.5 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium" onclick="handlePost()">发布动态</button>
+            <p class="text-xs text-lighttext mt-3 text-center"><i class="fa fa-info-circle mr-1"></i>发布即表示同意社区友善公约</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 3. 匿名心情树洞 ==================== -->
+    <section id="page-treehole" class="page-wrap page-hidden">
+      <h1 class="section-title">匿名心情树洞 · 放心倾诉</h1>
+      <p class="section-subtitle">所有内容严格保密，无个人信息泄露风险</p>
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- 倾诉表单 -->
+          <div class="bg-white p-6 md:p-8 rounded-xl shadow-sm mb-8">
+            <h3 class="font-bold text-lg mb-4"><i class="fa fa-pencil text-primary mr-2"></i>写下你的心事</h3>
+            <p class="text-sm text-lighttext mb-5">全程匿名，无需实名。学业、就业、家庭、自卑、孤独、压力都可以在这里诉说，志愿者会温柔回复你。</p>
+            <textarea id="treeholeInput" class="w-full border border-gray-300 p-4 rounded-lg h-44 mb-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none" placeholder="说出你心里的话..." oninput="updateCharCount(this, 2000, 'treeholeCount')"></textarea>
+            <div class="flex justify-between items-center mb-5">
+              <span id="treeholeCount" class="text-xs text-lighttext">0/2000</span>
+              <label class="flex items-center gap-2 text-sm cursor-pointer">
+                <input type="checkbox" checked class="rounded"> 需要志愿者回复
+              </label>
+            </div>
+            <button class="btn-primary" onclick="handleTreeholeSubmit()"><i class="fa fa-paper-plane mr-2"></i>提交倾诉</button>
+          </div>
+          <!-- 树洞留言 -->
+          <h2 class="text-xl font-bold mb-5">树洞暖心留言</h2>
+          <div class="space-y-5" id="treeholeList">
+            <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm font-medium"><i class="fa fa-user-secret mr-1"></i>匿名用户</span>
+                <span class="text-sm text-lighttext">3天前</span>
+              </div>
+              <p class="mb-4">找工作多次被拒绝，因为身体条件被企业委婉劝退，经常夜里失眠，感觉自己没有价值...</p>
+              <div class="pl-4 border-l-4 border-primary/30 bg-softblue/50 p-4 rounded-r-lg">
+                <p class="text-sm text-primary font-medium mb-1"><i class="fa fa-heart-o mr-1"></i>助残志愿者回复：</p>
+                <p class="text-sm text-lighttext">很多企业有专门残障适配岗位，平台招聘板块有大量定向岗位，不要否定自己。你愿意的话，我可以帮你一起改简历。</p>
+              </div>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+              <div class="flex items-center gap-2 mb-3">
+                <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm font-medium"><i class="fa fa-user-secret mr-1"></i>匿名用户</span>
+                <span class="text-sm text-lighttext">5天前</span>
+              </div>
+              <p class="mb-4">身边很少有能理解我的朋友，家人也很难共情，长期一个人在家，特别孤独。</p>
+              <div class="pl-4 border-l-4 border-primary/30 bg-softblue/50 p-4 rounded-r-lg">
+                <p class="text-sm text-primary font-medium mb-1"><i class="fa fa-heart-o mr-1"></i>助残志愿者回复：</p>
+                <p class="text-sm text-lighttext">可以去交友板块匹配同城伙伴，大家拥有相似经历，更容易互相理解陪伴。你并不孤单。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 侧边栏 -->
+        <div>
+          <div class="bg-white p-6 rounded-xl shadow-sm sticky top-[140px]">
+            <h3 class="font-bold mb-4"><i class="fa fa-bar-chart text-primary mr-2"></i>树洞数据</h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-lighttext">本月倾诉</span>
+                <span class="font-bold text-primary">1,280+</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-lighttext">志愿者回复</span>
+                <span class="font-bold text-success">98.5%</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-lighttext">在线志愿者</span>
+                <span class="font-bold text-primary">86名</span>
+              </div>
+            </div>
+            <hr class="my-5">
+            <h4 class="font-bold text-sm mb-3">温馨提示</h4>
+            <ul class="text-sm text-lighttext space-y-2">
+              <li><i class="fa fa-check text-success mr-2"></i>紧急情况请联系当地心理援助热线</li>
+              <li><i class="fa fa-check text-success mr-2"></i>树洞内容会在30天后自动清理</li>
+              <li><i class="fa fa-check text-success mr-2"></i>如有自杀倾向请拨打：400-161-9995</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. 助残招聘 ==================== -->
+    <section id="page-job" class="page-wrap page-hidden">
+      <h1 class="section-title">助残精准招聘求职</h1>
+      <p class="section-subtitle">专为残障朋友筛选的友好岗位，直达企业HR</p>
+      <div class="flex flex-wrap gap-4 mb-8">
+        <button onclick="switchTab('job-person')" class="job-tab px-6 py-2.5 bg-primary text-white rounded-lg font-medium transition-colors" data-tab="job-person">残疾人找工作</button>
+        <button onclick="switchTab('job-company')" class="job-tab px-6 py-2.5 bg-white border-2 border-gray-300 rounded-lg font-medium hover:border-primary transition-colors" data-tab="job-company">企业发布岗位</button>
+      </div>
+      <!-- 求职者板块 -->
+      <div id="job-person" class="job-content">
+        <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+          <h3 class="font-bold text-lg mb-4"><i class="fa fa-search text-primary mr-2"></i>岗位搜索</h3>
+          <div class="flex flex-wrap gap-4 items-end">
+            <div class="flex-1 min-w-[200px]">
+              <label class="block text-sm text-lighttext mb-1.5">岗位关键词</label>
+              <input type="text" placeholder="居家客服、手工、线上设计..." class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+            </div>
+            <div class="min-w-[150px]">
+              <label class="block text-sm text-lighttext mb-1.5">工作地点</label>
+              <select class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+                <option>全国不限</option>
+                <option>北京</option>
+                <option>上海</option>
+                <option>广州</option>
+                <option>深圳</option>
+                <option>济南</option>
+                <option>成都</option>
+                <option>武汉</option>
+              </select>
+            </div>
+            <div class="min-w-[150px]">
+              <label class="block text-sm text-lighttext mb-1.5">残障适配类型</label>
+              <select class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+                <option>全部适配</option>
+                <option>视听友好</option>
+                <option>肢体友好</option>
+                <option>居家办公</option>
+              </select>
+            </div>
+            <button class="btn-primary"><i class="fa fa-search mr-2"></i>搜索岗位</button>
+          </div>
+        </div>
+        <h3 class="font-bold mb-5 text-lg">为你推荐的适配岗位</h3>
+        <div class="space-y-5" id="jobList">
+          <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+            <div class="flex flex-wrap justify-between gap-3 mb-3">
+              <h4 class="font-bold text-lg text-primary">居家线上客服（可居家，听力/肢体友好）</h4>
+              <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm font-medium">残障定向岗位</span>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3 mb-4 text-sm text-lighttext">
+              <span><i class="fa fa-building text-primary mr-2"></i>线上文创公司</span>
+              <span><i class="fa fa-money text-primary mr-2"></i>3500-5000元/月</span>
+              <span><i class="fa fa-home text-primary mr-2"></i>全职居家</span>
+            </div>
+            <p class="text-sm mb-4">岗位适配：无需外出，线上办公，支持文字沟通，适合肢体、听力残疾朋友。企业提供免费岗位培训。</p>
+            <div class="flex gap-3">
+              <button class="btn-primary text-sm py-2"><i class="fa fa-send mr-2"></i>投递简历</button>
+              <button class="btn-outline text-sm py-2"><i class="fa fa-star-o mr-2"></i>收藏岗位</button>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+            <div class="flex flex-wrap justify-between gap-3 mb-3">
+              <h4 class="font-bold text-lg text-primary">图文美工设计（远程接单）</h4>
+              <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm font-medium">残障定向岗位</span>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3 mb-4 text-sm text-lighttext">
+              <span><i class="fa fa-building text-primary mr-2"></i>本地广告工作室</span>
+              <span><i class="fa fa-money text-primary mr-2"></i>计件4000-7000元/月</span>
+              <span><i class="fa fa-laptop text-primary mr-2"></i>远程/兼职</span>
+            </div>
+            <p class="text-sm mb-4">岗位适配：电脑线上完成，不限出行，提供基础培训。欢迎肢体残疾、听力残疾朋友应聘。</p>
+            <div class="flex gap-3">
+              <button class="btn-primary text-sm py-2"><i class="fa fa-send mr-2"></i>投递简历</button>
+              <button class="btn-outline text-sm py-2"><i class="fa fa-star-o mr-2"></i>收藏岗位</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 企业入驻板块 -->
+      <div id="job-company" class="job-content page-hidden">
+        <div class="bg-white p-8 rounded-xl shadow-sm max-w-3xl">
+          <h3 class="font-bold text-xl mb-2"><i class="fa fa-building text-primary mr-2"></i>企业助残岗位入驻</h3>
+          <p class="text-sm text-lighttext mb-8">企业入驻可享受残疾人就业税收减免政策，平台免费展示岗位，精准匹配残障求职者。入驻完全免费。</p>
+          <form id="companyForm" class="space-y-5" onsubmit="handleCompanySubmit(event)">
+            <div>
+              <label class="block text-sm font-medium mb-1.5">企业名称 <span class="text-danger">*</span></label>
+              <input required class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none" placeholder="请输入企业全称">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">统一社会信用代码 <span class="text-danger">*</span></label>
+              <input required class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none" placeholder="请输入18位统一社会信用代码">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">对接人姓名+联系电话 <span class="text-danger">*</span></label>
+              <input required class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none" placeholder="姓名 + 手机号码">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">可提供残障适配岗位描述 <span class="text-danger">*</span></label>
+              <textarea required class="border border-gray-300 w-full p-2.5 rounded-lg h-28 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none" placeholder="请描述岗位名称、工作内容、适配残障类型、薪资待遇等"></textarea>
+            </div>
+            <div class="flex items-start gap-2">
+              <input type="checkbox" id="companyAgree" class="mt-1">
+              <label for="companyAgree" class="text-sm text-lighttext">我已阅读并同意《企业助残入驻协议》，承诺所填信息真实有效</label>
+            </div>
+            <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">提交入驻申请</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 5. 创业帮扶 ==================== -->
+    <section id="page-startup" class="page-wrap page-hidden">
+      <h1 class="section-title">低门槛残疾人创业帮扶</h1>
+      <p class="section-subtitle">真实案例 + 政策扶持 + 资源对接，助力每一位创业梦想</p>
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <h2 class="text-xl font-bold mb-5">真实残疾人创业成功案例</h2>
+          <div class="space-y-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="bg-success/10 text-success px-3 py-1 rounded-full text-sm font-medium">手工编织</span>
+                <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm">肢体残疾</span>
+              </div>
+              <h3 class="font-bold text-lg mb-2">居家手工编织工作室</h3>
+              <p class="text-sm text-lighttext mb-1">创业规模：5人残障团队 | 月营收：15,000+ 元</p>
+              <p class="text-sm leading-relaxed mt-3">创始人行动不便无法外出务工，依托短视频售卖手工编织饰品，平台对接线上销路，当地残联提供创业启动补贴，带动多名残障邻居居家就业。目前团队稳定在5人，人均月收入3000+。</p>
+              <button class="mt-4 text-primary font-medium text-sm hover:underline">查看完整创业故事 →</button>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="bg-success/10 text-success px-3 py-1 rounded-full text-sm font-medium">有声书配音</span>
+                <span class="bg-softblue text-primary px-3 py-1 rounded-full text-sm">视力残疾</span>
+              </div>
+              <h3 class="font-bold text-lg mb-2">线上音频文案工作室</h3>
+              <p class="text-sm text-lighttext mb-1">创业规模：3人团队 | 适配工具：读屏软件全套支持</p>
+              <p class="text-sm leading-relaxed mt-3">利用读屏设备承接有声书、短视频文案业务，平台对接电商、传媒企业订单，无需线下办公，月收入稳定。团队目前正在招募更多视力残疾朋友加入。</p>
+              <button class="mt-4 text-primary font-medium text-sm hover:underline">查看完整创业故事 →</button>
+            </div>
+          </div>
+          <!-- 创业资源 -->
+          <h2 class="text-xl font-bold mb-5">创业扶持资源</h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <i class="fa fa-money text-2xl text-primary mb-3"></i>
+              <h4 class="font-bold mb-2">一次性创业补贴</h4>
+              <p class="text-sm text-lighttext">残疾人首次创业可申请3000-10000元一次性补贴，详情见政策中心。</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <i class="fa fa-university text-2xl text-primary mb-3"></i>
+              <h4 class="font-bold mb-2">贴息创业贷款</h4>
+              <p class="text-sm text-lighttext">最高20万元小额贴息贷款，残疾人专属，最长3年免息期。</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <i class="fa fa-graduation-cap text-2xl text-primary mb-3"></i>
+              <h4 class="font-bold mb-2">免费技能培训</h4>
+              <p class="text-sm text-lighttext">残联合作电商、手工、客服等免费技能培训，线上线下同步开展。</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm card-hover">
+              <i class="fa fa-shopping-cart text-2xl text-primary mb-3"></i>
+              <h4 class="font-bold mb-2">产品销售渠道</h4>
+              <p class="text-sm text-lighttext">平台助残商城免费为残疾人创业产品提供展示和销售渠道。</p>
+            </div>
+          </div>
+        </div>
+        <!-- 侧边栏 -->
+        <div>
+          <div class="bg-white p-6 rounded-xl shadow-sm sticky top-[140px]">
+            <h3 class="font-bold mb-4"><i class="fa fa-compass text-primary mr-2"></i>创业扶持资源</h3>
+            <ul class="space-y-3 text-sm">
+              <li class="flex gap-2 items-start"><i class="fa fa-check-circle text-primary mt-0.5"></i><span>残疾人一次性创业补贴申请指南</span></li>
+              <li class="flex gap-2 items-start"><i class="fa fa-check-circle text-primary mt-0.5"></i><span>低息创业贷款政策详解</span></li>
+              <li class="flex gap-2 items-start"><i class="fa fa-check-circle text-primary mt-0.5"></i><span>居家电商无货源入门教程</span></li>
+              <li class="flex gap-2 items-start"><i class="fa fa-check-circle text-primary mt-0.5"></i><span>残联免费创业技能培训报名</span></li>
+              <li class="flex gap-2 items-start"><i class="fa fa-check-circle text-primary mt-0.5"></i><span>残疾人创业税收减免政策</span></li>
+            </ul>
+            <button onclick="switchPage('policy')" class="w-full mt-6 btn-primary"><i class="fa fa-book mr-2"></i>查看完整扶持政策</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 6. 政策中心 ==================== -->
+    <section id="page-policy" class="page-wrap page-hidden">
+      <h1 class="section-title">全国残疾人政策帮扶中心</h1>
+      <p class="section-subtitle">补贴、康复、就业、创业政策一键检索，实时更新</p>
+      <div class="bg-white p-6 rounded-xl shadow-sm mb-8">
+        <h3 class="font-bold text-lg mb-4"><i class="fa fa-search text-primary mr-2"></i>政策检索</h3>
+        <div class="flex flex-wrap gap-4 items-end">
+          <input placeholder="输入关键词：补贴、康复、创业、就业..." class="flex-1 min-w-[220px] border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+          <select class="min-w-[160px] border border-gray-300 p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+            <option>全部地区政策</option>
+            <option>北京市</option>
+            <option>上海市</option>
+            <option>山东省</option>
+            <option>广东省</option>
+          </select>
+          <button class="btn-primary"><i class="fa fa-search mr-2"></i>查询政策</button>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+          <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa fa-medkit text-primary"></i>康复救助政策</h3>
+          <ul class="space-y-3 text-sm text-lighttext">
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残疾人免费康复器械申领标准（2026最新）</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>儿童残疾康复补贴报销规则</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>重度残疾人居家康复护理补贴申请流程</li>
+          </ul>
+          <button class="mt-4 text-primary text-sm font-medium hover:underline">查看全部康复政策 →</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+          <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa fa-cny text-primary"></i>生活补贴政策</h3>
+          <ul class="space-y-3 text-sm text-lighttext">
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>重度残疾人护理补贴申领条件（2026）</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>低保残疾人生活补助标准</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残疾人医保、养老缴费减免政策</li>
+          </ul>
+          <button class="mt-4 text-primary text-sm font-medium hover:underline">查看全部补贴政策 →</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+          <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa fa-briefcase text-primary"></i>就业扶持政策</h3>
+          <ul class="space-y-3 text-sm text-lighttext">
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>企业招用残疾人税收减免政策解读</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残疾人灵活就业社保补贴申请</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残障人士免费职业技能培训目录</li>
+          </ul>
+          <button class="mt-4 text-primary text-sm font-medium hover:underline">查看全部就业政策 →</button>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm card-hover">
+          <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa fa-lightbulb-o text-primary"></i>创业扶持政策</h3>
+          <ul class="space-y-3 text-sm text-lighttext">
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残疾人一次性创业补贴申请全指南</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>小额贴息创业贷款申请流程（附模板）</li>
+            <li class="flex items-start gap-2"><i class="fa fa-chevron-right text-primary text-xs mt-1"></i>残疾人创业场地租金减免政策</li>
+          </ul>
+          <button class="mt-4 text-primary text-sm font-medium hover:underline">查看全部创业政策 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 7. 支持我们（盈利/可持续模式）==================== -->
+    <section id="page-donate" class="page-wrap page-hidden">
+      <h1 class="section-title">支持我们 · 让爱传递</h1>
+      <p class="section-subtitle">同心助残是纯公益平台，您的支持是我们持续运营的动力</p>
+      
+      <!-- 平台运营说明 -->
+      <div class="bg-white rounded-2xl p-8 md:p-10 shadow-sm mb-10">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="text-2xl font-bold mb-4">平台如何保持<span class="text-primary">纯公益</span>运营？</h2>
+            <p class="text-lighttext leading-relaxed mb-4">同心助残承诺：面向残疾人的所有服务永久免费。平台运营资金来自以下渠道，接受全社会监督：</p>
+            <div class="space-y-3">
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-success/10 rounded-full flex items-center justify-center text-success flex-shrink-0 mt-0.5"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-medium text-sm">企业助残公益赞助</p>
+                  <p class="text-xs text-lighttext">入驻企业自愿赞助，用于平台维护和志愿者补贴</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-success/10 rounded-full flex items-center justify-center text-success flex-shrink-0 mt-0.5"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-medium text-sm">政府购买服务</p>
+                  <p class="text-xs text-lighttext">对接各地残联，承接助残数字化服务项目</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-success/10 rounded-full flex items-center justify-center text-success flex-shrink-0 mt-0.5"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-medium text-sm">公众自愿捐赠</p>
+                  <p class="text-xs text-lighttext">爱心人士小额捐赠，专款专用，定期公示</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-8 h-8 bg-success/10 rounded-full flex items-center justify-center text-success flex-shrink-0 mt-0.5"><i class="fa fa-check"></i></div>
+                <div>
+                  <p class="font-medium text-sm">助残商城公益佣金</p>
+                  <p class="text-xs text-lighttext">残疾人创业产品商城，仅收取5%运营成本费</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-softblue p-6 rounded-xl">
+            <h3 class="font-bold text-lg mb-4 text-center">资金使用透明公示</h3>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>服务器及技术维护</span>
+                  <span class="font-medium">42%</span>
+                </div>
+                <div class="w-full bg-white rounded-full h-2.5">
+                  <div class="bg-primary h-2.5 rounded-full" style="width:42%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>志愿者补贴及培训</span>
+                  <span class="font-medium">28%</span>
+                </div>
+                <div class="w-full bg-white rounded-full h-2.5">
+                  <div class="bg-primary h-2.5 rounded-full" style="width:28%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>残疾人创业扶持金</span>
+                  <span class="font-medium">20%</span>
+                </div>
+                <div class="w-full bg-white rounded-full h-2.5">
+                  <div class="bg-primary h-2.5 rounded-full" style="width:20%"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-1">
+                  <span>平台运营及宣传</span>
+                  <span class="font-medium">10%</span>
+                </div>
+                <div class="w-full bg-white rounded-full h-2.5">
+                  <div class="bg-primary h-2.5 rounded-full" style="width:10%"></div>
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-lighttext text-center mt-4">每月10号公示上月善款使用明细，接受社会监督</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 赞助方案 -->
+      <h2 class="text-xl font-bold mb-6">加入助残伙伴计划</h2>
+      <div class="grid md:grid-cols-3 gap-6 mb-10">
+        <!-- 个人爱心 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-gray-100 hover:border-primary/50 transition-colors card-hover">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-4">
+              <i class="fa fa-user"></i>
+            </div>
+            <h3 class="font-bold text-lg">个人爱心</h3>
+            <p class="text-sm text-lighttext mt-2">点滴之爱，汇聚成河</p>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">随缘捐赠</span>
+              <span class="font-medium">任意金额</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">月度微捐</span>
+              <span class="font-medium">10元/月起</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">捐赠证书</span>
+              <span class="text-success">✓ 电子版</span>
+            </div>
+          </div>
+          <button class="w-full py-3 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium" onclick="showToast('个人捐赠功能接入中，请联系客服...')">我要捐赠</button>
+        </div>
+        <!-- 企业伙伴 -->
+        <div class="bg-white p-6 rounded-xl shadow-lg border-2 border-primary relative card-hover">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">推荐方案</div>
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-4">
+              <i class="fa fa-building"></i>
+            </div>
+            <h3 class="font-bold text-lg">企业伙伴</h3>
+            <p class="text-sm text-lighttext mt-2">助残招聘 + 品牌公益曝光</p>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">年度赞助</span>
+              <span class="font-medium">5,000元起</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">专属招聘通道</span>
+              <span class="text-success">✓ 无限发布</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">官网公益伙伴展示</span>
+              <span class="text-success">✓ 企业LOGO展示</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">税收优惠协助</span>
+              <span class="text-success">✓ 全程指导</span>
+            </div>
+          </div>
+          <button class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium" onclick="openModal('companySponsorModal')">成为企业伙伴</button>
+        </div>
+        <!-- 战略合作 -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border-2 border-gray-100 hover:border-primary/50 transition-colors card-hover">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-softblue rounded-full flex items-center justify-center text-primary text-2xl mx-auto mb-4">
+              <i class="fa fa-handshake-o"></i>
+            </div>
+            <h3 class="font-bold text-lg">战略合作</h3>
+            <p class="text-sm text-lighttext mt-2">残联 / 基金会 / 公益组织</p>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">政府购买服务</span>
+              <span class="text-success">✓ 接洽中</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">联合公益项目</span>
+              <span class="text-success">✓ 可洽谈</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-lighttext">数据平台对接</span>
+              <span class="text-success">✓ 技术支持</span>
+            </div>
+          </div>
+          <button class="w-full py-3 border-2 border-primary text-primary rounded-lg hover:bg-softblue transition-colors font-medium" onclick="switchPage('help')">联系合作</button>
+        </div>
+      </div>
+
+      <!-- 监督和公示 -->
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <h3 class="font-bold text-lg mb-4"><i class="fa fa-eye text-primary mr-2"></i>财务透明监督</h3>
+        <p class="text-sm text-lighttext mb-4">我们承诺每一笔收入和支出都向社会公开，接受残疾人朋友和捐赠人的监督。如有疑问，可随时联系客服核查。</p>
+        <div class="grid sm:grid-cols-3 gap-4 text-center">
+          <div class="bg-softblue p-4 rounded-lg">
+            <p class="text-2xl font-bold text-primary mb-1">每月10号</p>
+            <p class="text-sm text-lighttext">财务公示日</p>
+          </div>
+          <div class="bg-softblue p-4 rounded-lg">
+            <p class="text-2xl font-bold text-primary mb-1">100%</p>
+            <p class="text-sm text-lighttext">善款去向可查</p>
+          </div>
+          <div class="bg-softblue p-4 rounded-lg">
+            <p class="text-2xl font-bold text-primary mb-1">24小时</p>
+            <p class="text-sm text-lighttext">监督反馈响应</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 8. 客服帮助 ==================== -->
+    <section id="page-help" class="page-wrap page-hidden">
+      <h1 class="section-title">客服帮扶中心</h1>
+      <p class="section-subtitle">服务时间：周一至周日 9:00-21:00，免费公益咨询</p>
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-xl shadow-sm">
+          <h2 class="font-bold text-lg mb-6"><i class="fa fa-headphones text-primary mr-2"></i>在线人工咨询</h2>
+          <form id="helpForm" class="space-y-5" onsubmit="handleHelpSubmit(event)">
+            <div>
+              <label class="block text-sm font-medium mb-1.5">咨询分类 <span class="text-danger">*</span></label>
+              <select required class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+                <option value="">请选择咨询类型</option>
+                <option>账号注册/实名问题</option>
+                <option>求职招聘岗位咨询</option>
+                <option>创业扶持政策咨询</option>
+                <option>心理树洞、社交相关问题</option>
+                <option>平台无障碍功能故障</option>
+                <option>企业入驻/赞助合作</option>
+                <option>其他问题</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">问题描述 <span class="text-danger">*</span></label>
+              <textarea required class="border border-gray-300 w-full p-3 rounded-lg h-36 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none" placeholder="请详细描述您的问题，我们会尽快回复..."></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1.5">联系电话（选填，方便我们主动联系你）</label>
+              <input type="tel" class="border border-gray-300 w-full p-2.5 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none" placeholder="手机号码">
+            </div>
+            <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">提交咨询</button>
+          </form>
+        </div>
+        <div>
+          <h2 class="font-bold text-lg mb-5">常见问题 FAQ</h2>
+          <div class="bg-white rounded-xl shadow-sm divide-y">
+            <details class="p-5 group">
+              <summary class="cursor-pointer font-medium flex items-center justify-between group-hover:text-primary transition-colors">平台所有服务是否收费？<i class="fa fa-chevron-down text-xs transition-transform group-open:rotate-180"></i></summary>
+              <p class="mt-3 text-sm text-lighttext leading-relaxed">本平台纯公益，残疾人交友、树洞、求职、政策查询全部永久免费，无隐藏收费。企业入驻亦不收取费用。</p>
+            </details>
+            <details class="p-5 group">
+              <summary class="cursor-pointer font-medium flex items-center justify-between group-hover:text-primary transition-colors">实名入驻需要什么证件？<i class="fa fa-chevron-down text-xs transition-transform group-open:rotate-180"></i></summary>
+              <p class="mt-3 text-sm text-lighttext leading-relaxed">仅需残疾人证基础信息，用于匹配定向岗位与扶持政策，信息严格加密不外泄，可随时申请注销账号。</p>
+            </details>
+            <details class="p-5 group">
+              <summary class="cursor-pointer font-medium flex items-center justify-between group-hover:text-primary transition-colors">树洞倾诉会泄露个人信息吗？<i class="fa fa-chevron-down text-xs transition-transform group-open:rotate-180"></i></summary>
+              <p class="mt-3 text-sm text-lighttext leading-relaxed">树洞完全隔离账号信息，发布内容不会绑定你的昵称、地区、残疾类型。我们承诺严格保护隐私。</p>
+            </details>
+            <details class="p-5 group">
+              <summary class="cursor-pointer font-medium flex items-center justify-between group-hover:text-primary transition-colors">企业入驻有什么要求？<i class="fa fa-chevron-down text-xs transition-transform group-open:rotate-180"></i></summary>
+              <p class="mt-3 text-sm text-lighttext leading-relaxed">正规工商企业即可免费入驻，平台仅审核资质，不收取岗位发布费用。加入助残伙伴计划可享受更多服务。</p>
+            </details>
+            <details class="p-5 group">
+              <summary class="cursor-pointer font-medium flex items-center justify-between group-hover:text-primary transition-colors">平台运营资金从哪来？<i class="fa fa-chevron-down text-xs transition-transform group-open:rotate-180"></i></summary>
+              <p class="mt-3 text-sm text-lighttext leading-relaxed">资金来自企业公益赞助、政府购买服务、公众自愿捐赠三大渠道，每月财务公示，接受全社会监督。详见"支持我们"页面。</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 回到顶部按钮 -->
+  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg hover:bg-primaryDark transition-all z-40 page-hidden items-center justify-center" aria-label="回到顶部">
+    <i class="fa fa-chevron-up"></i>
+  </button>
+
+  <!-- Toast 提示 -->
+  <div id="toast" class="fixed top-20 left-1/2 -translate-x-1/2 bg-darktext text-white px-6 py-3 rounded-lg shadow-xl z-[200] page-hidden text-sm font-medium transition-all duration-300" aria-live="polite"></div>
+
+  <!-- 页脚 -->
+  <footer class="bg-darktext text-white py-12 mt-16" aria-label="网站底部信息">
+    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center text-white text-lg">
+            <i class="fa fa-heart-o"></i>
+          </div>
+          <h3 class="font-bold text-lg">同心助残</h3>
+        </div>
+        <p class="text-sm text-gray-300 leading-relaxed">全国残疾人一站式公益服务平台，互助、就业、创业、心理帮扶一体化。纯公益，不收取残疾人任何费用。</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-base">核心服务</h4>
+        <ul class="text-sm text-gray-300 space-y-2.5">
+          <li><button onclick="switchPage('friend')" class="hover:text-white transition-colors">互助交友社区</button></li>
+          <li><button onclick="switchPage('treehole')" class="hover:text-white transition-colors">匿名心情树洞</button></li>
+          <li><button onclick="switchPage('job')" class="hover:text-white transition-colors">助残招聘求职</button></li>
+          <li><button onclick="switchPage('startup')" class="hover:text-white transition-colors">残疾人创业帮扶</button></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-base">了解我们</h4>
+        <ul class="text-sm text-gray-300 space-y-2.5">
+          <li><button onclick="switchPage('policy')" class="hover:text-white transition-colors">全国助残政策库</button></li>
+          <li><button onclick="switchPage('donate')" class="hover:text-white transition-colors">平台运营透明报告</button></li>
+          <li><button onclick="switchPage('help')" class="hover:text-white transition-colors">在线客服咨询</button></li>
+          <li><button onclick="openModal('companyModal')" class="hover:text-white transition-colors">企业助残入驻</button></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-5 text-base">联系方式</h4>
+        <ul class="text-sm text-gray-300 space-y-2.5">
+          <li><i class="fa fa-phone mr-2"></i>客服热线：400-XXX-XXXX</li>
+          <li><i class="fa fa-envelope mr-2"></i>邮箱：help@tongxinzhucan.org</li>
+          <li><i class="fa fa-map-marker mr-2"></i>地址：北京市朝阳区XXX</li>
+        </ul>
+        <div class="flex gap-4 mt-5">
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"><i class="fa fa-weixin"></i></a>
+          <a href="#" class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"><i class="fa fa-weibo"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 mt-10 pt-8 border-t border-gray-700">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-3">
+        <p class="text-center text-sm text-gray-400">© 2026 同心助残公益平台 纯公益非盈利项目 | 无障碍友好网站 | 隐私保护承诺</p>
+        <p class="text-center text-xs text-gray-500">京ICP备XXXXXXXX号-1 | 京公网安备XXXXXXXXXXXX号</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 弹窗模块 ==================== -->
+  <!-- 登录弹窗 -->
+  <div id="loginModal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center page-hidden" aria-hidden="true" role="dialog" aria-label="用户登录">
+    <div class="bg-white w-full max-w-md p-8 rounded-2xl relative shadow-2xl mx-4">
+      <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-2xl text-lighttext hover:text-darktext w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="关闭">×</button>
+      <h2 class="text-2xl font-bold mb-8 text-center">用户登录</h2>
+      <form class="space-y-5" onsubmit="handleLogin(event)">
+        <div>
+          <label class="block text-sm font-medium mb-1.5">手机号 <span class="text-danger">*</span></label>
+          <input type="tel" required placeholder="请输入手机号码" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">登录密码 <span class="text-danger">*</span></label>
+          <input type="password" required placeholder="请输入密码" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div class="flex justify-between text-sm">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox"> 记住我
+          </label>
+          <button type="button" class="text-primary hover:underline">忘记密码？</button>
+        </div>
+        <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">登录平台</button>
+        <p class="text-center text-sm text-lighttext">暂无账号？<button type="button" onclick="switchModal('loginModal','regModal')" class="text-primary hover:underline font-medium">立即实名入驻</button></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- 实名注册弹窗 -->
+  <div id="regModal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center page-hidden" aria-hidden="true" role="dialog" aria-label="残疾人实名入驻">
+    <div class="bg-white w-full max-w-lg p-8 rounded-2xl relative max-h-[90vh] overflow-y-auto mx-4 shadow-2xl">
+      <button onclick="closeModal('regModal')" class="absolute top-4 right-4 text-2xl text-lighttext hover:text-darktext w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="关闭">×</button>
+      <h2 class="text-2xl font-bold mb-2 text-center">残疾人实名入驻</h2>
+      <p class="text-center text-sm text-lighttext mb-8">公益免费 · 信息严格加密 · 可随时注销</p>
+      <form class="space-y-5" onsubmit="handleRegister(event)">
+        <div>
+          <label class="block text-sm font-medium mb-1.5">手机号码 <span class="text-danger">*</span></label>
+          <input type="tel" required placeholder="请输入手机号码" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">设置登录密码 <span class="text-danger">*</span></label>
+          <input type="password" required placeholder="6-20位密码" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">残疾证编号 <span class="text-danger">*</span><span class="text-xs text-lighttext font-normal ml-2">（用于匹配政策/岗位，严格保密）</span></label>
+          <input required placeholder="请输入残疾证编号" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">残疾类型 <span class="text-danger">*</span></label>
+          <select required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+            <option value="">请选择残疾类型</option>
+            <option>肢体残疾</option>
+            <option>视力残疾</option>
+            <option>听力残疾</option>
+            <option>言语残疾</option>
+            <option>智力残疾</option>
+            <option>精神残疾</option>
+            <option>多重残疾</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">常住省市 <span class="text-danger">*</span></label>
+          <input required placeholder="例：山东省济南市" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <label class="flex gap-2.5 text-sm items-start cursor-pointer">
+          <input type="checkbox" required class="mt-1 w-4 h-4"> 我已阅读并同意《平台公益服务隐私协议》和《用户服务条款》
+        </label>
+        <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">完成实名入驻</button>
+        <p class="text-center text-sm text-lighttext">已有账号？<button type="button" onclick="switchModal('regModal','loginModal')" class="text-primary hover:underline font-medium">去登录</button></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- 企业入驻弹窗 -->
+  <div id="companyModal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center page-hidden" aria-hidden="true" role="dialog" aria-label="企业助残入驻">
+    <div class="bg-white w-full max-w-lg p-8 rounded-2xl relative max-h-[90vh] overflow-y-auto mx-4 shadow-2xl">
+      <button onclick="closeModal('companyModal')" class="absolute top-4 right-4 text-2xl text-lighttext hover:text-darktext w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="关闭">×</button>
+      <h2 class="text-2xl font-bold mb-8 text-center">企业助残岗位入驻</h2>
+      <form class="space-y-5" onsubmit="handleCompanySubmit(event)">
+        <div>
+          <label class="block text-sm font-medium mb-1.5">企业全称 <span class="text-danger">*</span></label>
+          <input required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">统一社会信用代码 <span class="text-danger">*</span></label>
+          <input required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">对接人姓名+联系电话 <span class="text-danger">*</span></label>
+          <input required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">可提供残障适配岗位说明 <span class="text-danger">*</span></label>
+          <textarea required class="border border-gray-300 w-full p-3 rounded-lg h-28 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">提交入驻审核</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 企业赞助弹窗 -->
+  <div id="companySponsorModal" class="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center page-hidden" aria-hidden="true" role="dialog" aria-label="企业伙伴赞助">
+    <div class="bg-white w-full max-w-lg p-8 rounded-2xl relative max-h-[90vh] overflow-y-auto mx-4 shadow-2xl">
+      <button onclick="closeModal('companySponsorModal')" class="absolute top-4 right-4 text-2xl text-lighttext hover:text-darktext w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors" aria-label="关闭">×</button>
+      <h2 class="text-2xl font-bold mb-2 text-center">成为企业助残伙伴</h2>
+      <p class="text-center text-sm text-lighttext mb-8">助力残疾人就业，提升企业ESG公益形象</p>
+      <form class="space-y-5" onsubmit="handleSponsorSubmit(event)">
+        <div>
+          <label class="block text-sm font-medium mb-1.5">企业全称 <span class="text-danger">*</span></label>
+          <input required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">赞助意向 <span class="text-danger">*</span></label>
+          <select required class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+            <option value="">请选择赞助方案</option>
+            <option>年度伙伴（5,000元/年）</option>
+            <option>金牌伙伴（10,000元/年）</option>
+            <option>战略伙伴（30,000元/年）</option>
+            <option>其他金额，另行洽谈</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">对接人及联系方式 <span class="text-danger">*</span></label>
+          <input required placeholder="姓名 + 手机/邮箱" class="border border-gray-300 w-full p-3 rounded-lg focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1.5">留言（选填）</label>
+          <textarea class="border border-gray-300 w-full p-3 rounded-lg h-24 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none resize-none" placeholder="您的期望或疑问..."></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 bg-primary text-white rounded-lg hover:bg-primaryDark transition-colors font-medium text-base">提交合作意向</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 全局交互 JS ==================== -->
+  <script>
+    // ========== 页面切换 ==========
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-wrap').forEach(page => page.classList.add('page-hidden'));
+      const target = document.getElementById('page-' + pageId);
+      if (target) {
+        target.classList.remove('page-hidden');
+        target.classList.add('animate-in');
+        setTimeout(() => target.classList.remove('animate-in'), 600);
+      }
+      // 导航激活样式
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-softblue', 'text-primary', 'rounded-lg');
+        if (btn.dataset.page === pageId) {
+          btn.classList.add('bg-softblue', 'text-primary', 'rounded-lg');
+        }
+      });
+      closeMobileMenu();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ========== 标签切换 ==========
+    function switchTab(tabId) {
+      document.querySelectorAll('.job-content').forEach(el => el.classList.add('page-hidden'));
+      document.getElementById(tabId).classList.remove('page-hidden');
+      document.querySelectorAll('.job-tab').forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white', 'border-2', 'border-primary');
+        btn.classList.add('bg-white', 'border-2', 'border-gray-300');
+      });
+      const clickedBtn = document.querySelector(`[data-tab="${tabId}"]`);
+      if (clickedBtn) {
+        clickedBtn.classList.remove('bg-white', 'border-gray-300');
+        clickedBtn.classList.add('bg-primary', 'text-white', 'border-2', 'border-primary');
+      }
+    }
+
+    // ========== 弹窗控制 ==========
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('page-hidden');
+        document.body.style.overflow = 'hidden';
+        // 聚焦到第一个输入框
+        setTimeout(() => {
+          const firstInput = modal.querySelector('input, select, textarea');
+          if (firstInput) firstInput.focus();
+        }, 100);
+      }
+    }
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('page-hidden');
+        document.body.style.overflow = '';
+      }
+    }
+    function switchModal(closeId, openId) {
+      closeModal(closeId);
+      setTimeout(() => openModal(openId), 150);
+    }
+    // 点击弹窗背景关闭
+    document.querySelectorAll('[id$="Modal"]').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal.id);
+      });
+    });
+
+    // ========== 移动端菜单 ==========
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('page-hidden');
+    }
+    function closeMobileMenu() {
+      document.getElementById('mobileMenu').classList.add('page-hidden');
+    }
+
+    // ========== 无障碍功能 ==========
+    let fontSizeNum = 16;
+    const fontSizeTip = document.getElementById('fontSizeTip');
+    function fontSizePlus() {
+      if (fontSizeNum >= 26) { showToast('已是最大字体'); return; }
+      fontSizeNum += 2;
+      document.body.style.fontSize = fontSizeNum + 'px';
+      fontSizeTip.innerText = fontSizeNum + 'px 放大字体';
+      showToast('字体已放大至 ' + fontSizeNum + 'px');
+    }
+    function fontSizeMinus() {
+      if (fontSizeNum <= 12) { showToast('已是最小字体'); return; }
+      fontSizeNum -= 2;
+      document.body.style.fontSize = fontSizeNum + 'px';
+      fontSizeTip.innerText = fontSizeNum + 'px 缩小字体';
+      showToast('字体已缩小至 ' + fontSizeNum + 'px');
+    }
+    // 高对比度
+    let contrastOn = false;
+    function toggleContrast() {
+      contrastOn = !contrastOn;
+      const body = document.body;
+      const btn = document.getElementById('contrastBtn');
+      if (contrastOn) {
+        body.classList.add('high-contrast-mode');
+        btn.innerHTML = '<i class="fa fa-adjust mr-1"></i>关闭对比';
+        showToast('高对比度模式已开启');
+      } else {
+        body.classList.remove('high-contrast-mode');
+        btn.innerHTML = '高对比度';
+        showToast('高对比度模式已关闭');
+      }
+    }
+    // 阅读辅助线
+    let readingGuideOn = false;
+    function toggleReadingGuide() {
+      readingGuideOn = !readingGuideOn;
+      const guide = document.getElementById('readingGuide');
+      const btn = document.getElementById('readingGuideBtn');
+      if (readingGuideOn) {
+        guide.classList.remove('page-hidden');
+        btn.innerHTML = '<i class="fa fa-times mr-1"></i>关闭辅助';
+        showToast('阅读辅助线已开启，滚动页面使用');
+        // 跟随鼠标
+        document.addEventListener('mousemove', updateReadingGuide);
+      } else {
+        guide.classList.add('page-hidden');
+        btn.innerHTML = '阅读辅助';
+        document.removeEventListener('mousemove', updateReadingGuide);
+      }
+    }
+    function updateReadingGuide(e) {
+      const guide = document.getElementById('readingGuide');
+      if (guide) guide.style.top = e.clientY + 'px';
+    }
+
+    // ========== Toast 提示 ==========
+    let toastTimer = null;
+    function showToast(msg, duration = 2500) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('page-hidden');
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(-20px)';
+        setTimeout(() => toast.classList.add('page-hidden'), 300);
+      }, duration);
+    }
+
+    // ========== 回到顶部按钮 ==========
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('backToTop');
+      if (window.scrollY > 400) {
+        btn.classList.remove('page-hidden');
+        btn.style.display = 'flex';
+      } else {
+        btn.style.display = 'none';
+        btn.classList.add('page-hidden');
+      }
+    });
+
+    // ========== 字符计数 ==========
+    function updateCharCount(textarea, maxLen, countId) {
+      const count = textarea.value.length;
+      const el = document.getElementById(countId);
+      if (el) {
+        el.innerText = count + '/' + maxLen;
+        if (count > maxLen) {
+          el.classList.add('text-danger');
+          textarea.value = textarea.value.substring(0, maxLen);
+          el.innerText = maxLen + '/' + maxLen;
+        } else {
+          el.classList.remove('text-danger');
+        }
+      }
+    }
+
+    // ========== 表单提交处理（前端模拟）==========
+    function handleLogin(e) {
+      e.preventDefault();
+      showToast('登录功能需接入后端，当前为演示模式');
+    }
+    function handleRegister(e) {
+      e.preventDefault();
+      showToast('注册成功！欢迎加入同心助残 🎉（演示模式）');
+      closeModal('regModal');
+    }
+    function handleCompanySubmit(e) {
+      e.preventDefault();
+      showToast('企业入驻申请已提交，我们会尽快审核！（演示模式）');
+      closeModal('companyModal');
+    }
+    function handleSponsorSubmit(e) {
+      e.preventDefault();
+      showToast('合作意向已提交，感谢您的支持！（演示模式）');
+      closeModal('companySponsorModal');
+    }
+    function handleHelpSubmit(e) {
+      e.preventDefault();
+      showToast('咨询已提交，客服会在24小时内回复您！');
+      e.target.reset();
+    }
+    function handlePost() {
+      const post = document.getElementById('friendPost');
+      if (!post.value.trim()) {
+        showToast('请输入动态内容后再发布');
+        return;
+      }
+      showToast('动态发布成功！（演示模式）');
+      post.value = '';
+      document.getElementById('friendCount').innerText = '0/500';
+    }
+    function handleTreeholeSubmit() {
+      const input = document.getElementById('treeholeInput');
+      if (!input.value.trim()) {
+        showToast('请先写下你的心事');
+        return;
+      }
+      showToast('倾诉已提交，志愿者会尽快回复你 💙');
+      input.value = '';
+      document.getElementById('treeholeCount').innerText = '0/2000';
+    }
+
+    // ========== 键盘无障碍 ==========
+    document.addEventListener('keydown', (e) => {
+      // ESC 关闭弹窗
+      if (e.key === 'Escape') {
+        document.querySelectorAll('[id$="Modal"]').forEach(modal => {
+          if (!modal.classList.contains('page-hidden')) closeModal(modal.id);
+        });
+      }
+    });
+
+    // ========== 初始化 ==========
+    switchPage('home');
+  </script>
+</body>
+</html>

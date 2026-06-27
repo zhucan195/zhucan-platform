@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zhucan195.github.io/zhucan-platform/sitemap.xml
